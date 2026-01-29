@@ -1004,7 +1004,7 @@
             </div>
             <div class="capability-card">
                 <div class="capability-card-image">
-                    <img src="https://images.unsplash.com/photo-1581091012184-7787ab811f10?w=800&q=80" alt="Scale & Production">
+                    <img src="https://images.unsplash.com/photo-1730382624709-81e52dd294d4?w=800&q=80" alt="Scale & Production">
                 </div>
                 <div class="capability-card-content">
                     <div class="capability-icon">🚀</div>
@@ -1036,7 +1036,7 @@
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; max-width: 1400px; margin: 0 auto;">
             <div style="position: relative; overflow: hidden; border: 1px solid rgba(0, 212, 255, 0.2); cursor: pointer; transition: all 0.4s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 212, 255, 0.2)'">
-                <img src="https://images.unsplash.com/photo-1581092918484-8313a5d3e1ee?w=800&q=80" alt="Advanced Manufacturing" style="width: 100%; height: 300px; object-fit: cover; display: block;">
+                <img src="https://images.unsplash.com/photo-1740209475472-aa7d280f7452?w=800&q=80" alt="Advanced Manufacturing" style="width: 100%; height: 300px; object-fit: cover; display: block;">
                 <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(180deg, transparent 0%, rgba(10, 14, 26, 0.95) 100%);">
                     <h4 style="color: var(--primary); font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem;">Precision Manufacturing</h4>
                     <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">CNC machining and laser cutting capabilities</p>
@@ -1071,7 +1071,7 @@
                 </div>
             </div>
             <div style="position: relative; overflow: hidden; border: 1px solid rgba(0, 212, 255, 0.2); cursor: pointer; transition: all 0.4s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 212, 255, 0.2)'">
-                <img src="https://images.unsplash.com/photo-1581093458791-9d42e2e14cf5?w=800&q=80" alt="Heavy Machinery" style="width: 100%; height: 300px; object-fit: cover; display: block;">
+                <img src="https://images.unsplash.com/photo-1698664683348-f9f35b809821?w=800&q=80" alt="Heavy Machinery" style="width: 100%; height: 300px; object-fit: cover; display: block;">
                 <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(180deg, transparent 0%, rgba(10, 14, 26, 0.95) 100%);">
                     <h4 style="color: var(--primary); font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem;">Metal Fabrication</h4>
                     <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">Laser welding and industrial machining</p>
@@ -1295,6 +1295,7 @@
         });
 
         // Scroll reveal animation
+        // Scroll reveal animation
         function reveal() {
             const reveals = document.querySelectorAll('.reveal');
             reveals.forEach(element => {
@@ -1302,4 +1303,14 @@
                 const elementTop = element.getBoundingClientRect().top;
                 const elementVisible = 150;
                 
-                if (elementTop < win
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        reveal(); // Check on load
+    </script>
+</body>
+</html>
