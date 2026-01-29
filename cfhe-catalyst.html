@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CfHE Catalyst | Product Realization Ecosystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --secondary: #ff6b35;
+            --accent: #00ff88;
+            --dark: #0a0e1a;
+            --darker: #050810;
+            --light: #e8f4f8;
+            --text-light: #b0c4de;
+            --gradient-1: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%);
+            --gradient-2: linear-gradient(135deg, #ff6b35 0%, #ff1744 100%);
+            --gradient-3: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated Background Grid */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-3);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            margin-top: 80px;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #00ff88 50%, #ff6b35 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            animation: fadeInUp 1s ease-out 0.7s both;
+        }
+
+        .hero .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: var(--darker);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--darker);
+            transform: translateY(-3px);
+        }
+
+        /* Stats Section */
+        .stats {
+            position: relative;
+            padding: 5rem 5%;
+            background: rgba(0, 212, 255, 0.03);
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            text-align: center;
+            animation: fadeInUp 1s ease-out both;
+        }
+
+        .stat-item:nth-child(1) { animation-delay: 0.2s; }
+        .stat-item:nth-child(2) { animation-delay: 0.4s; }
+        .stat-item:nth-child(3) { animation-delay: 0.6s; }
+        .stat-item:nth-child(4) { animation-delay: 0.8s; }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        /* Labs Section */
+        .labs-section {
+            position: relative;
+            padding: 8rem 5%;
+            background: var(--dark);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease-out both;
+        }
+
+        .section-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .labs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .lab-card {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            animation: fadeInUp 1s ease-out both;
+        }
+
+        .lab-card:nth-child(1) { animation-delay: 0.2s; }
+        .lab-card:nth-child(2) { animation-delay: 0.3s; }
+        .lab-card:nth-child(3) { animation-delay: 0.4s; }
+        .lab-card:nth-child(4) { animation-delay: 0.5s; }
+        .lab-card:nth-child(5) { animation-delay: 0.6s; }
+        .lab-card:nth-child(6) { animation-delay: 0.7s; }
+
+        .lab-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .lab-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            background: rgba(0, 212, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+        }
+
+        .lab-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .lab-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .lab-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .lab-card p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .equipment-count {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Equipment Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--dark);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 3rem;
+            position: relative;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
+        }
+
+        .modal-content h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .equipment-list {
+            display: grid;
+            gap: 1rem;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .equipment-item {
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 3px solid var(--primary);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .equipment-item:hover {
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .equipment-item h4 {
+            color: var(--light);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .equipment-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .equipment-detail {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .equipment-detail strong {
+            color: var(--primary);
+        }
+
+        /* Capabilities Section */
+        .capabilities {
+            position: relative;
+            padding: 8rem 5%;
+            background: var(--darker);
+        }
+
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .capability-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 212, 255, 0.02) 100%);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 2.5rem;
+            position: relative;
+            transition: all 0.4s ease;
+            animation: fadeInUp 1s ease-out both;
+        }
+
+        .capability-card:nth-child(1) { animation-delay: 0.2s; }
+        .capability-card:nth-child(2) { animation-delay: 0.4s; }
+        .capability-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .capability-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: var(--gradient-3);
+            transition: height 0.4s ease;
+        }
+
+        .capability-card:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%);
+            box-shadow: 0 15px 50px rgba(0, 212, 255, 0.2);
+        }
+
+        .capability-card:hover::before {
+            height: 100%;
+        }
+
+        .capability-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .capability-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .capability-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .capability-card li {
+            color: var(--text-light);
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .capability-card li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 900;
+        }
+
+        /* Contact Section */
+        .contact {
+            position: relative;
+            padding: 8rem 5%;
+            background: var(--dark);
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out both;
+        }
+
+        .contact h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            padding: 2rem;
+            background: rgba(255, 107, 53, 0.05);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 107, 53, 0.1);
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+        }
+
+        .contact-item h4 {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-item p {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .contact-item a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: var(--secondary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .labs-grid,
+            .capabilities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                padding: 2rem;
+            }
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <nav>
+        <div class="logo">CfHE CATALYST</div>
+        <ul class="nav-links">
+            <li><a href="#labs">Labs</a></li>
+            <li><a href="#capabilities">Capabilities</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>PRODUCT REALIZATION<br>ECOSYSTEM</h1>
+            <p class="tagline">
+                Where <span class="highlight">Innovation</span> meets <span class="highlight">Precision Engineering</span>.
+                From concept to reality, we power healthcare technology breakthroughs.
+            </p>
+            <div class="cta-buttons">
+                <a href="#labs" class="btn btn-primary">Explore Our Labs</a>
+                <a href="#contact" class="btn btn-secondary">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">6</span>
+                <span class="stat-label">Specialized Labs</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">84+</span>
+                <span class="stat-label">Equipment Units</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">Access Available</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Innovation Focus</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="labs" class="labs-section">
+        <div class="section-header reveal">
+            <h2>STATE-OF-THE-ART FACILITIES</h2>
+            <p>Six specialized laboratories equipped with cutting-edge technology to transform your healthcare innovation from prototype to production-ready product.</p>
+        </div>
+        <div class="labs-grid">
+            <div class="lab-card" onclick="openModal('electronics')">
+                <div class="lab-icon">⚡</div>
+                <h3>Electronics Lab</h3>
+                <p>Advanced electronic design, testing, and prototyping capabilities with precision instrumentation for circuit development and validation.</p>
+                <span class="equipment-count">19 Equipment Units</span>
+            </div>
+            <div class="lab-card" onclick="openModal('digital')">
+                <div class="lab-icon">🔷</div>
+                <h3>Digital Fabrication</h3>
+                <p>Cutting-edge additive manufacturing and CNC machining for rapid prototyping and small-batch production of complex geometries.</p>
+                <span class="equipment-count">18 Equipment Units</span>
+            </div>
+            <div class="lab-card" onclick="openModal('heavy')">
+                <div class="lab-icon">⚙️</div>
+                <h3>Heavy Fabrication</h3>
+                <p>Industrial-grade manufacturing equipment including laser cutting, welding, and precision machining for robust product development.</p>
+                <span class="equipment-count">9 Equipment Units</span>
+            </div>
+            <div class="lab-card" onclick="openModal('assembly')">
+                <div class="lab-icon">🔧</div>
+                <h3>Assembly & Testing</h3>
+                <p>Comprehensive assembly tools and functional testing equipment to ensure product quality and performance validation.</p>
+                <span class="equipment-count">22 Equipment Units</span>
+            </div>
+            <div class="lab-card" onclick="openModal('safety')">
+                <div class="lab-icon">🛡️</div>
+                <h3>Safety & Compliance</h3>
+                <p>EMI/EMC testing, safety compliance verification, and regulatory readiness assessment for medical device certification.</p>
+                <span class="equipment-count">12 Equipment Units</span>
+            </div>
+            <div class="lab-card" onclick="openModal('wet')">
+                <div class="lab-icon">🧬</div>
+                <h3>Wet Lab</h3>
+                <p>Biosafety-compliant laboratory for biological testing, cell culture, and biocompatibility assessment of medical devices.</p>
+                <span class="equipment-count">4 Equipment Units</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="capabilities" class="capabilities">
+        <div class="section-header reveal">
+            <h2>END-TO-END CAPABILITIES</h2>
+            <p>Comprehensive support throughout your product development journey</p>
+        </div>
+        <div class="capabilities-grid">
+            <div class="capability-card">
+                <div class="capability-icon">🎯</div>
+                <h3>Design & Prototyping</h3>
+                <ul>
+                    <li>Concept validation and proof-of-concept development</li>
+                    <li>Rapid prototyping with 3D printing and CNC</li>
+                    <li>Electronic circuit design and PCB fabrication</li>
+                    <li>Industrial design and ergonomics optimization</li>
+                    <li>Material selection and testing</li>
+                </ul>
+            </div>
+            <div class="capability-card">
+                <div class="capability-icon">🔬</div>
+                <h3>Testing & Validation</h3>
+                <ul>
+                    <li>Functional testing and performance validation</li>
+                    <li>EMI/EMC compliance testing</li>
+                    <li>Safety and biocompatibility assessment</li>
+                    <li>Environmental stress testing</li>
+                    <li>Quality assurance protocols</li>
+                </ul>
+            </div>
+            <div class="capability-card">
+                <div class="capability-icon">🚀</div>
+                <h3>Scale & Production</h3>
+                <ul>
+                    <li>Small to medium batch manufacturing</li>
+                    <li>Process optimization and automation</li>
+                    <li>Supply chain development support</li>
+                    <li>Regulatory documentation assistance</li>
+                    <li>Technology transfer readiness</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="contact">
+        <div class="contact-content">
+            <h2>ABOUT CfHE CATALYST</h2>
+            <p>CfHE Catalyst is the product realization arm of the Foundation for the Center for Healthcare Entrepreneurship (CfHE), IIT Hyderabad. We provide world-class infrastructure and technical expertise to healthcare innovators, startups, and enterprises.</p>
+            <p>Our mission is to accelerate the journey from innovation to impact by removing technical barriers and providing access to state-of-the-art manufacturing capabilities.</p>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="contact-content">
+            <h2>GET IN TOUCH</h2>
+            <p>Ready to bring your healthcare innovation to life? Connect with our team to discuss your project requirements.</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h4>Location</h4>
+                    <p>IIT Hyderabad Campus<br>Kandi, Sangareddy<br>Telangana, India</p>
+                </div>
+                <div class="contact-item">
+                    <h4>Email</h4>
+                    <p><a href="mailto:contact@cfhe.org.in">contact@cfhe.org.in</a></p>
+                </div>
+                <div class="contact-item">
+                    <h4>Website</h4>
+                    <p><a href="http://cfhe.org.in" target="_blank">cfhe.org.in</a></p>
+                </div>
+            </div>
+            <div class="cta-buttons" style="justify-content: center; margin-top: 3rem;">
+                <a href="http://cfhe.org.in/contact/" class="btn btn-primary" target="_blank">Schedule a Consultation</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">CfHE CATALYST</div>
+            <p class="footer-text">
+                Part of the Foundation for the Center for Healthcare Entrepreneurship, IIT Hyderabad<br>
+                Empowering healthcare innovation through world-class product realization infrastructure
+            </p>
+            <div class="footer-links">
+                <a href="http://cfhe.org.in" target="_blank">CfHE Foundation</a>
+                <a href="http://cfhe.org.in/about-us/" target="_blank">About Us</a>
+                <a href="http://cfhe.org.in/programs/" target="_blank">Programs</a>
+                <a href="http://cfhe.org.in/facilities/" target="_blank">Facilities</a>
+                <a href="http://cfhe.org.in/contact/" target="_blank">Contact</a>
+            </div>
+            <p class="copyright">© 2026 CfHE Catalyst - Foundation for the Center for Healthcare Entrepreneurship, IIT Hyderabad. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Modal for Equipment Details -->
+    <div id="equipmentModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <h3 id="modalTitle"></h3>
+            <div id="modalEquipment" class="equipment-list"></div>
+        </div>
+    </div>
+
+    <script>
+        // Equipment Data
+        const equipmentData = {
+            electronics: {
+                title: "Electronics Lab Equipment",
+                items: [
+                    {name: "Function Generator", spec: "AFG1022", qty: 1, make: "Tektronix"},
+                    {name: "Oscilloscope", spec: "TBS1052C", qty: 1, make: "Tektronix"},
+                    {name: "Oscilloscope", spec: "TBS1104", qty: 1, make: "Tektronix"},
+                    {name: "Digital Multimeter", spec: "—", qty: 2, make: "Keysight"},
+                    {name: "DC Power Supply", spec: "GPD-3303S", qty: 1, make: "GW Instek"},
+                    {name: "DC Power Supply", spec: "E3630A", qty: 1, make: "Agilent"},
+                    {name: "Portable Logic Analyzer", spec: "TLA7BB2", qty: 1, make: "Tektronix"},
+                    {name: "Probe Station", spec: "PM8", qty: 1, make: "SUSS MicroTec"},
+                    {name: "LCR Meter", spec: "E4980A", qty: 1, make: "Agilent"},
+                    {name: "Temperature Controller", spec: "TP04100A-05", qty: 1, make: "Temptronic"},
+                    {name: "Ultrasonic Cleaner", spec: "—", qty: 1, make: "Bel"},
+                    {name: "PCB Prototype Machine", spec: "ProtoMat S104", qty: 1, make: "LPKF"},
+                    {name: "SMT Pick and Place Machine", spec: "P&P4S", qty: 1, make: "Neoden"},
+                    {name: "Reflow Oven", spec: "T-962", qty: 1, make: "PUHUI"},
+                    {name: "Hot Air Rework Station", spec: "BAKKU", qty: 3, make: "Gordak"},
+                    {name: "Soldering Station", spec: "BAKKU", qty: 3, make: "Generic"}
+                ]
+            },
+            digital: {
+                title: "Digital Fabrication Equipment",
+                items: [
+                    {name: "3D Printer", spec: "BCN3D Epsilon W50", qty: 1, make: "BCN3D"},
+                    {name: "3D Printer", spec: "Sigma D25", qty: 1, make: "BCN3D"},
+                    {name: "3D Printer", spec: "Duplicator 7 Plus (DLP)", qty: 1, make: "Wanhao"},
+                    {name: "3D Printer", spec: "Ender 3", qty: 1, make: "Creality"},
+                    {name: "3D Printer", spec: "Ultimaker S5", qty: 1, make: "Ultimaker"},
+                    {name: "3D Printer", spec: "CR-10 V3", qty: 1, make: "Creality"},
+                    {name: "Multi-Material 3D Printer", spec: "Raise3D Pro3", qty: 1, make: "Raise3D"},
+                    {name: "Multi-Material 3D Printer", spec: "E2CF", qty: 1, make: "Raise3D"},
+                    {name: "Silicon Mold Making Machine", spec: "Proform 8000", qty: 1, make: "Rapid Shape"},
+                    {name: "CNC Milling Machine", spec: "Nomad 883 Pro", qty: 2, make: "Carbide 3D"},
+                    {name: "CNC Milling Machine", spec: "MB200", qty: 1, make: "Carbide 3D"},
+                    {name: "CNC Router", spec: "Shapeoko 5 Pro", qty: 1, make: "Carbide 3D"},
+                    {name: "Laser Engraver", spec: "xTool D1 Pro (10W)", qty: 1, make: "xTool"},
+                    {name: "Bandsaw Machine", spec: "—", qty: 1, make: "Yash"},
+                    {name: "Oven (Curing)", spec: "—", qty: 2, make: "—"},
+                    {name: "Vacuum Forming Machine", spec: "—", qty: 1, make: "Mayku"},
+                    {name: "Spray Booth", spec: "—", qty: 1, make: "—"}
+                ]
+            },
+            heavy: {
+                title: "Heavy Fabrication Equipment",
+                items: [
+                    {name: "Laser Welding Machine", spec: "LW1500", qty: 1, make: "Han's Laser"},
+                    {name: "Laser Cutting Machine", spec: "LC Fiber 2513", qty: 1, make: "Han's Laser"},
+                    {name: "Wirecut EDM Machine", spec: "DK7740F", qty: 1, make: "Baoma CNC"},
+                    {name: "Press Brake Machine", spec: "WC67K-40T/2500", qty: 1, make: "—"},
+                    {name: "Lathe Machine", spec: "—", qty: 1, make: "HMT"},
+                    {name: "Plasma Cutter", spec: "—", qty: 1, make: "—"},
+                    {name: "Milling Machine", spec: "—", qty: 1, make: "HMT"},
+                    {name: "Column Drill", spec: "—", qty: 1, make: "—"},
+                    {name: "Bandsaw Machine", spec: "—", qty: 1, make: "—"}
+                ]
+            },
+            assembly: {
+                title: "Assembly & Functional Testing Equipment",
+                items: [
+                    {name: "Drill Machine with Stand", spec: "—", qty: 1, make: "Bosch"},
+                    {name: "Cutting Machine with Stand", spec: "—", qty: 1, make: "Bosch"},
+                    {name: "Grinding Machine", spec: "—", qty: 1, make: "Bosch"},
+                    {name: "Drill Machine", spec: "—", qty: 2, make: "Bosch"},
+                    {name: "Sander", spec: "—", qty: 2, make: "Bosch"},
+                    {name: "Jigsaw", spec: "—", qty: 1, make: "Bosch"},
+                    {name: "Dremel", spec: "—", qty: 2, make: "Dremel"},
+                    {name: "Heat Gun", spec: "—", qty: 2, make: "Bosch"},
+                    {name: "Measuring Tape", spec: "—", qty: 2, make: "Stanley"},
+                    {name: "Vernier Caliper Digital", spec: "—", qty: 5, make: "Mitutoyo"},
+                    {name: "Micrometer", spec: "—", qty: 2, make: "Mitutoyo"},
+                    {name: "Ultrasonic Cleaner", spec: "—", qty: 1, make: "GT Sonic"},
+                    {name: "Air Compressor", spec: "—", qty: 1, make: "—"},
+                    {name: "Workbench", spec: "—", qty: 6, make: "—"},
+                    {name: "Hand Tools Set", spec: "—", qty: 3, make: "—"}
+                ]
+            },
+            safety: {
+                title: "Safety & Compliance Testing Equipment",
+                items: [
+                    {name: "Pre-Amplifier", spec: "HZ-16", qty: 1, make: "Schwarzbeck"},
+                    {name: "LISN", spec: "NNLK 8129", qty: 1, make: "Schwarzbeck"},
+                    {name: "EMC Test Receiver", spec: "ESR", qty: 1, make: "Rohde & Schwarz"},
+                    {name: "Antenna", spec: "VULP 9118D", qty: 1, make: "Schwarzbeck"},
+                    {name: "Antenna", spec: "EFS 9218", qty: 1, make: "Schwarzbeck"},
+                    {name: "Field Strength Probes", spec: "ENZ-5055, HZ-501", qty: 2, make: "Schwarzbeck"},
+                    {name: "Biconical Antenna", spec: "USLP 9143", qty: 1, make: "Schwarzbeck"},
+                    {name: "Electric Safety Analyzer", spec: "ESA 620", qty: 1, make: "Fluke Biomedical"},
+                    {name: "Electrical Safety Analyzer", spec: "601 Pro XL", qty: 1, make: "Fluke Biomedical"},
+                    {name: "Dielectric Withstand Tester", spec: "HT Hipot Tester", qty: 1, make: "Associated Research"},
+                    {name: "Ground Bond Tester", spec: "3550", qty: 1, make: "Associated Research"}
+                ]
+            },
+            wet: {
+                title: "Wet Lab Equipment",
+                items: [
+                    {name: "Biosafety Cabinet", spec: "HFsafe-1200LC", qty: 1, make: "Heal Force"},
+                    {name: "Laboratory Incubator", spec: "HF90/HF240", qty: 1, make: "Heal Force"},
+                    {name: "Laboratory Refrigerator", spec: "—", qty: 1, make: "SAMSUNG"},
+                    {name: "DI Water System with Purifier", spec: "—", qty: 1, make: "—"}
+                ]
+            }
+        };
+
+        // Modal Functions
+        function openModal(labType) {
+            const modal = document.getElementById('equipmentModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalEquipment = document.getElementById('modalEquipment');
+            
+            const data = equipmentData[labType];
+            modalTitle.textContent = data.title;
+            
+            let equipmentHTML = '';
+            data.items.forEach(item => {
+                equipmentHTML += `
+                    <div class="equipment-item">
+                        <h4>${item.name}</h4>
+                        <div class="equipment-details">
+                            <div class="equipment-detail"><strong>Specification:</strong> ${item.spec}</div>
+                            <div class="equipment-detail"><strong>Quantity:</strong> ${item.qty}</div>
+                            <div class="equipment-detail"><strong>Make:</strong> ${item.make}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            modalEquipment.innerHTML = equipmentHTML;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('equipmentModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('equipmentModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll reveal animation
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        reveal(); // Check on load
+    </script>
+</body>
+</html>
