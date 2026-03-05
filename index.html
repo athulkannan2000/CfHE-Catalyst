@@ -1,1316 +1,643 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CfHE Catalyst | Product Realization Ecosystem</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #00d4ff;
-            --secondary: #ff6b35;
-            --accent: #00ff88;
-            --dark: #0a0e1a;
-            --darker: #050810;
-            --light: #e8f4f8;
-            --text-light: #b0c4de;
-            --gradient-1: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%);
-            --gradient-2: linear-gradient(135deg, #ff6b35 0%, #ff1744 100%);
-            --gradient-3: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'IBM Plex Sans', sans-serif;
-            background: var(--darker);
-            color: var(--light);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Animated Background Grid */
-        .grid-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
-            background-size: 60px 60px;
-            animation: gridMove 20s linear infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(60px, 60px); }
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 5%;
-            background: rgba(10, 14, 26, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            animation: slideDown 0.6s ease-out;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
-        }
-
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 900;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 500;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-3);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 0 5%;
-            margin-top: 80px;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=1920&q=80') center/cover;
-            opacity: 0.15;
-            z-index: 1;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
-            z-index: 1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-            animation: fadeInUp 1s ease-out 0.3s both;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 5rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #00d4ff 0%, #00ff88 50%, #ff6b35 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fadeInUp 1s ease-out 0.5s both;
-        }
-
-        .hero .tagline {
-            font-size: 1.5rem;
-            color: var(--text-light);
-            margin-bottom: 2.5rem;
-            font-weight: 300;
-            animation: fadeInUp 1s ease-out 0.7s both;
-        }
-
-        .hero .highlight {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            animation: fadeInUp 1s ease-out 0.9s both;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            border: none;
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: var(--gradient-1);
-            color: var(--darker);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--light);
-            border: 2px solid var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: var(--darker);
-            transform: translateY(-3px);
-        }
-
-        /* Stats Section */
-        .stats {
-            position: relative;
-            padding: 5rem 5%;
-            background: rgba(0, 212, 255, 0.03);
-            border-top: 1px solid rgba(0, 212, 255, 0.1);
-            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .stat-item {
-            text-align: center;
-            animation: fadeInUp 1s ease-out both;
-        }
-
-        .stat-item:nth-child(1) { animation-delay: 0.2s; }
-        .stat-item:nth-child(2) { animation-delay: 0.4s; }
-        .stat-item:nth-child(3) { animation-delay: 0.6s; }
-        .stat-item:nth-child(4) { animation-delay: 0.8s; }
-
-        .stat-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 500;
-        }
-
-        /* Labs Section */
-        .labs-section {
-            position: relative;
-            padding: 8rem 5%;
-            background: var(--dark);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 5rem;
-            animation: fadeInUp 1s ease-out both;
-        }
-
-        .section-header h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-        }
-
-        .section-header p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .labs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .lab-card {
-            background: rgba(0, 212, 255, 0.05);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            animation: fadeInUp 1s ease-out both;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .lab-card-image {
-            width: 100%;
-            height: 250px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .lab-card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .lab-card-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(180deg, transparent 0%, rgba(10, 14, 26, 0.9) 100%);
-        }
-
-        .lab-card:hover .lab-card-image img {
-            transform: scale(1.1);
-        }
-
-        .lab-card-content {
-            padding: 2.5rem;
-        }
-
-        .lab-card:nth-child(1) { animation-delay: 0.2s; }
-        .lab-card:nth-child(2) { animation-delay: 0.3s; }
-        .lab-card:nth-child(3) { animation-delay: 0.4s; }
-        .lab-card:nth-child(4) { animation-delay: 0.5s; }
-        .lab-card:nth-child(5) { animation-delay: 0.6s; }
-        .lab-card:nth-child(6) { animation-delay: 0.7s; }
-
-        .lab-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--gradient-1);
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-        }
-
-        .lab-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary);
-            background: rgba(0, 212, 255, 0.1);
-            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
-        }
-
-        .lab-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .lab-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .lab-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .lab-card p {
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        .equipment-count {
-            display: inline-block;
-            background: rgba(0, 212, 255, 0.1);
-            color: var(--primary);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        /* Equipment Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 2000;
-            overflow-y: auto;
-            padding: 2rem;
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: var(--dark);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            max-width: 900px;
-            width: 100%;
-            padding: 3rem;
-            position: relative;
-            animation: slideUp 0.4s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            font-size: 2rem;
-            color: var(--text-light);
-            cursor: pointer;
-            transition: color 0.3s ease;
-            background: none;
-            border: none;
-        }
-
-        .modal-close:hover {
-            color: var(--primary);
-        }
-
-        .modal-content h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-        }
-
-        .equipment-list {
-            display: grid;
-            gap: 1rem;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .equipment-item {
-            background: rgba(0, 212, 255, 0.05);
-            border-left: 3px solid var(--primary);
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .equipment-item:hover {
-            background: rgba(0, 212, 255, 0.1);
-            transform: translateX(5px);
-        }
-
-        .equipment-item h4 {
-            color: var(--light);
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .equipment-details {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .equipment-detail {
-            font-size: 0.9rem;
-            color: var(--text-light);
-        }
-
-        .equipment-detail strong {
-            color: var(--primary);
-        }
-
-        .equipment-spec {
-            color: var(--accent);
-            font-weight: 500;
-        }
-
-        /* Capabilities Section */
-        .capabilities {
-            position: relative;
-            padding: 8rem 5%;
-            background: var(--darker);
-        }
-
-        .capabilities-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .capability-card {
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 212, 255, 0.02) 100%);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            position: relative;
-            transition: all 0.4s ease;
-            animation: fadeInUp 1s ease-out both;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .capability-card-image {
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .capability-card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-            filter: brightness(0.7);
-        }
-
-        .capability-card:hover .capability-card-image img {
-            transform: scale(1.05);
-            filter: brightness(0.9);
-        }
-
-        .capability-card-content {
-            padding: 2.5rem;
-        }
-
-        .capability-card:nth-child(1) { animation-delay: 0.2s; }
-        .capability-card:nth-child(2) { animation-delay: 0.4s; }
-        .capability-card:nth-child(3) { animation-delay: 0.6s; }
-
-        .capability-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 0;
-            background: var(--gradient-3);
-            transition: height 0.4s ease;
-        }
-
-        .capability-card:hover {
-            transform: translateY(-5px);
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%);
-            box-shadow: 0 15px 50px rgba(0, 212, 255, 0.2);
-        }
-
-        .capability-card:hover::before {
-            height: 100%;
-        }
-
-        .capability-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .capability-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
-
-        .capability-card ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .capability-card li {
-            color: var(--text-light);
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .capability-card li::before {
-            content: '▹';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-weight: 900;
-        }
-
-        /* Contact Section */
-        .contact {
-            position: relative;
-            padding: 8rem 5%;
-            background: var(--dark);
-            text-align: center;
-        }
-
-        .contact-content {
-            max-width: 800px;
-            margin: 0 auto;
-            animation: fadeInUp 1s ease-out both;
-        }
-
-        .contact h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            background: var(--gradient-2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            margin-bottom: 2rem;
-        }
-
-        .contact-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .contact-item {
-            padding: 2rem;
-            background: rgba(255, 107, 53, 0.05);
-            border: 1px solid rgba(255, 107, 53, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .contact-item:hover {
-            background: rgba(255, 107, 53, 0.1);
-            transform: translateY(-5px);
-            border-color: var(--secondary);
-        }
-
-        .contact-item h4 {
-            color: var(--secondary);
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .contact-item p {
-            color: var(--text-light);
-            font-size: 1rem;
-            margin: 0;
-        }
-
-        .contact-item a {
-            color: var(--light);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .contact-item a:hover {
-            color: var(--secondary);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--darker);
-            border-top: 1px solid rgba(0, 212, 255, 0.2);
-            padding: 3rem 5%;
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 900;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-        }
-
-        .footer-text {
-            color: var(--text-light);
-            margin-bottom: 2rem;
-            line-height: 1.8;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
-        }
-
-        .footer-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .copyright {
-            color: var(--text-light);
-            font-size: 0.85rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(0, 212, 255, 0.1);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 3rem;
-            }
-
-            .hero .tagline {
-                font-size: 1.2rem;
-            }
-
-            .section-header h2 {
-                font-size: 2.5rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .labs-grid,
-            .capabilities-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .modal-content {
-                padding: 2rem;
-            }
-        }
-
-        /* Scroll Reveal Animation */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CfHE Poster 2 – MedTech Ecosystem</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:     #F7F3EC;
+    --cream2:    #EDE8DA;
+    --teal:      #006B60;
+    --teal-2:    #008575;
+    --teal-lt:   #2BBFAB;
+    --teal-pale: #E4F3F1;
+    --gold:      #C97D09;
+    --gold-lt:   #F0A500;
+    --charcoal:  #191921;
+    --mid:       #5A5A62;
+    --border:    #DDD8CE;
+    --white:     #fff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: #1a1a1a;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 32px 16px;
+    font-family: 'Outfit', sans-serif;
+  }
+  .label {
+    color: #666; font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+
+  /* ══════════════════════════════════════════
+     POSTER  — 116" × 90"  →  1160 × 900 px
+     Landscape orientation, flex-column layout
+  ══════════════════════════════════════════ */
+  .poster {
+    width: 1160px;
+    height: 950px;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.75);
+  }
+
+  /* ── HEADER  (90 px) ── */
+  .top-header {
+    flex-shrink: 0; height: 90px;
+    background: linear-gradient(130deg, #004A42 0%, var(--teal-2) 100%);
+    position: relative;
+  }
+  .th-pattern {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0.07;
+    background-image: repeating-linear-gradient(-55deg, #fff, #fff 1px, transparent 1px, transparent 16px);
+  }
+  .th-accent { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: var(--gold-lt); }
+
+  /* header content is absolutely overlaid on .poster */
+  .header-content {
+    position: absolute; top: 0; left: 0; right: 0; height: 90px; z-index: 2;
+    display: flex; align-items: center;
+    padding: 0 52px; gap: 18px;
+  }
+  .logo-box {
+    background: var(--white); border-radius: 8px;
+    padding: 8px 14px;
+    display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.22); flex-shrink: 0;
+  }
+  .logo-box img {
+    height: 44px; width: auto;
+    max-width: 200px;
+    object-fit: contain; display: block;
+  }
+  .lb-stack { display: flex; flex-direction: column; }
+  .lb-name  { font-size: 11px; font-weight: 700; color: var(--charcoal); }
+  .lb-sub   { font-size: 8px; color: var(--mid); margin-top: 2px; }
+  .hd-divider { width: 1px; height: 42px; background: rgba(255,255,255,0.2); flex-shrink: 0; }
+  .hd-mission {
+    flex: 1;
+    font-size: 12.5px; color: rgba(255,255,255,0.83);
+    font-style: italic; font-family: 'Instrument Serif', serif;
+    line-height: 1.5; padding: 0 10px;
+  }
+  .event-flag {
+    background: var(--gold-lt); color: var(--charcoal);
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 11px; letter-spacing: 1.5px;
+    padding: 8px 16px; border-radius: 7px;
+    text-align: center; line-height: 1.45; flex-shrink: 0;
+  }
+
+  /* ── HERO SECTION  (192 px) ── */
+  .hero-section {
+    flex-shrink: 0;
+    padding: 20px 52px 16px;
+    display: flex; gap: 36px; align-items: flex-start;
+    background: var(--cream);
+  }
+  .hero-left { flex: 1; }
+  .eyebrow {
+    font-size: 9px; letter-spacing: 3.5px; color: var(--teal-2);
+    text-transform: uppercase; font-weight: 600; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 9px;
+  }
+  .eyebrow::before { content: ''; width: 20px; height: 2px; background: var(--teal-2); }
+  .headline {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 52px; line-height: 1.0;
+    color: var(--charcoal); letter-spacing: -1.5px;
+  }
+  .headline .hl { color: var(--teal); }
+  .headline .hg {
+    color: var(--gold);
+    font-family: 'Instrument Serif', serif;
+    font-style: italic; font-size: 58px;
+  }
+  .subhead {
+    margin-top: 12px;
+    font-size: 13px; font-weight: 300;
+    color: var(--mid); line-height: 1.6;
+    max-width: 560px;
+  }
+  .subhead strong { color: var(--charcoal); font-weight: 600; }
+
+  /* Catalyst column — box + quote stacked */
+  .catalyst-col {
+    width: 520px; flex-shrink: 0;
+    display: flex; flex-direction: column; gap: 11px;
+  }
+  .catalyst-quote {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 14px; color: var(--teal);
+    line-height: 1.55;
+    padding: 10px 16px;
+    border-left: 3px solid var(--gold);
+    background: rgba(0, 107, 96, 0.06);
+    border-radius: 0 7px 7px 0;
+  }
+  .catalyst-quote cite {
+    display: block; margin-top: 6px;
+    font-size: 9px; font-style: normal; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gold); font-family: 'Outfit', sans-serif;
+  }
+
+  /* Catalyst stats box */
+  .catalyst-box {
+    width: 100%; flex-shrink: 0;
+    display: flex; gap: 0;
+    background: var(--teal);
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 10px 32px rgba(0,107,96,0.28);
+  }
+  .catalyst-box-inner {
+    padding: 18px 22px; flex: 1;
+  }
+  .cb-label {
+    font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(255,255,255,0.52); margin-bottom: 6px;
+  }
+  .cb-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 15px; color: var(--white); line-height: 1.2; margin-bottom: 14px;
+  }
+  .cb-stats-row { display: flex; gap: 0; }
+  .cb-stat {
+    flex: 1;
+    padding: 10px 14px;
+    border-left: 1px solid rgba(255,255,255,0.14);
+    text-align: center;
+  }
+  .cb-stat:first-child { border-left: none; }
+  .cb-num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 28px; color: var(--gold-lt); line-height: 1;
+  }
+  .cb-lbl { font-size: 9.5px; color: rgba(255,255,255,0.72); line-height: 1.35; margin-top: 3px; }
+
+  /* ── STATS BAND  (42 px) ── */
+  .stats-band {
+    flex-shrink: 0; height: 42px;
+    background: linear-gradient(90deg, #004A42, var(--teal-2), #004A42);
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 0 60px;
+  }
+  .sb-item { text-align: center; display: flex; align-items: center; gap: 10px; }
+  .sb-num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 20px; color: var(--gold-lt); line-height: 1;
+  }
+  .sb-lbl { font-size: 12px; color: rgb(255, 255, 255); letter-spacing: 2px; text-transform: uppercase; text-align: left; }
+  .sb-div { width: 1px; height: 20px; background: rgba(255,255,255,0.18); }
+
+  /* ── LABS STRIP  (144 px) ── */
+  .labs-strip {
+    flex-shrink: 0;
+    background: var(--charcoal);
+    padding: 16px 52px 14px;
+  }
+  .ls-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+  }
+  .ls-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 11px; color: var(--white); letter-spacing: 1px; text-transform: uppercase; white-space: nowrap;
+  }
+  .ls-line { flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+  .ls-tag {
+    background: var(--gold-lt); color: var(--charcoal);
+    font-size: 8.5px; font-weight: 700; letter-spacing: 0.8px;
+    padding: 3px 10px; border-radius: 20px; white-space: nowrap;
+  }
+  .labs-row { display: flex; gap: 8px; }
+  .lab-tile {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 8px; padding: 11px 10px; text-align: center;
+  }
+  .lt-icon { font-size: 19px; margin-bottom: 5px; display: block; }
+  .lt-name { font-size: 9.5px; font-weight: 600; color: var(--white); margin-bottom: 3px; line-height: 1.2; }
+  .lt-detail { font-size: 8px; color: rgba(255,255,255,0.40); line-height: 1.35; }
+  .lt-num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 17px; color: var(--teal-lt); margin-top: 5px; line-height: 1;
+  }
+  .lt-eq { font-size: 7px; color: rgba(255,255,255,0.28); letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ── PROGRAMS  (155 px) ── */
+  .programs-section {
+    flex-shrink: 0;
+    padding: 17px 52px 13px;
+    background: var(--cream);
+  }
+  .prog-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .prog-title  { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 600; white-space: nowrap; }
+  .prog-line   { flex: 1; height: 1px; background: var(--border); }
+  .prog-grid   { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .prog-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-bottom: 3px solid var(--teal);
+    border-radius: 9px; padding: 14px 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    display: flex; gap: 13px; align-items: flex-start;
+  }
+  .prog-card.gold-b { border-bottom-color: var(--gold); }
+  .pc-icon { font-size: 26px; flex-shrink: 0; line-height: 1; }
+  .pc-title { font-size: 13px; font-weight: 700; color: var(--charcoal); margin-bottom: 4px; }
+  .pc-desc  { font-size: 10.5px; color: var(--mid); line-height: 1.5; }
+
+  /* ── INCUBATEES + PARTNERS row  (72 px) ── */
+  .bottom-strip {
+    flex-shrink: 0;
+    display: flex; gap: 0;
+    background: var(--cream2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .incubatees-col {
+    flex: 1; padding: 12px 52px 12px;
+    border-right: 1px solid var(--border);
+  }
+  .ib-label {
+    font-size: 8px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--mid); margin-bottom: 8px; font-weight: 600;
+  }
+  .ib-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .ib-chip {
+    background: var(--teal-pale);
+    border: 1px solid rgba(0,107,96,0.18);
+    color: var(--teal);
+    font-size: 9.5px; font-weight: 600;
+    padding: 3px 10px; border-radius: 20px;
+  }
+
+  /* Partners in same strip */
+  .partners-col {
+    flex: 1.4; padding: 10px 28px 10px;
+    display: flex; flex-direction: column;
+  }
+  .partners-label {
+    font-size: 8px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--mid); margin-bottom: 7px; font-weight: 600; text-align: center;
+  }
+  .partners-row {
+    display: flex; align-items: center;
+    flex-wrap: wrap; gap: 6px; flex: 1; align-content: center;
+  }
+  .partner-logo {
+    flex: 0 0 calc(16.66% - 6px);   /* 6 per row → 3 rows for 17 logos */
+    display: flex; align-items: center; justify-content: center;
+    height: 24px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 4px; padding: 2px 5px; overflow: hidden;
+  }
+  .partner-logo img { max-height: 18px; max-width: 100%; object-fit: contain; opacity: 0.82; }
+
+  /* ── FLEX SPACER ── */
+  .flex-spacer { flex: 1; background: var(--cream); }
+
+  /* ── CTA FOOTER  (98 px) ── */
+  .cta-footer {
+    flex-shrink: 0; height: 98px;
+    background: var(--charcoal);
+    display: flex; align-items: center;
+    padding: 0 52px; gap: 28px;
+    border-top: 3px solid var(--teal-lt);
+  }
+  .cf-left { flex: 1; }
+  .cf-headline {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 22px; color: var(--white); line-height: 1.25;
+  }
+  .cf-headline em { color: var(--teal-lt); font-style: normal; }
+  .cf-sub { font-size: 11px; color: rgba(255,255,255,0.40); margin-top: 4px; }
+  .cf-btns { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+  .btn-p {
+    background: var(--teal); color: var(--white);
+    font-size: 12px; font-weight: 700;
+    padding: 9px 20px; border-radius: 7px;
+    white-space: nowrap; text-align: center;
+  }
+  .btn-s { font-size: 10px; color: var(--teal-lt); text-align: right; }
+  .nha-box {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 8px; padding: 10px 14px;
+    text-align: center; flex-shrink: 0;
+  }
+  .nha-l { font-size: 7px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.30); margin-bottom: 3px; }
+  .nha-n { font-size: 11px; font-weight: 600; color: var(--white); line-height: 1.35; }
+</style>
 </head>
 <body>
-    <div class="grid-bg"></div>
+<p class="label">▶ Poster 2 of 2 — "India's MedTech Engine" — Landscape · 116" × 90"</p>
 
-    <nav>
-        <div class="logo">CfHE CATALYST</div>
-        <ul class="nav-links">
-            <li><a href="#labs">Labs</a></li>
-            <li><a href="#capabilities">Capabilities</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+<div class="poster">
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>PRODUCT REALIZATION<br>ECOSYSTEM</h1>
-            <p class="tagline">
-                Where <span class="highlight">Innovation</span> meets <span class="highlight">Precision Engineering</span>.
-                From concept to reality, we power healthcare technology breakthroughs.
-            </p>
-            <div class="cta-buttons">
-                <a href="#labs" class="btn btn-primary">Explore Our Labs</a>
-                <a href="#contact" class="btn btn-secondary">Get Started</a>
-            </div>
-        </div>
-    </section>
+  <!-- HEADER BACKGROUND (flex item — reserves 90px in flow) -->
+  <div class="top-header">
+    <div class="th-pattern"></div>
+    <div class="th-accent"></div>
+  </div>
 
-    <section class="stats">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <span class="stat-number">6</span>
-                <span class="stat-label">Specialized Labs</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">84+</span>
-                <span class="stat-label">Equipment Units</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">24/7</span>
-                <span class="stat-label">Access Available</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">100%</span>
-                <span class="stat-label">Innovation Focus</span>
-            </div>
-        </div>
-    </section>
+  <!-- HEADER CONTENT (absolute overlay, z-index 2) -->
+  <div class="header-content">
+    <div class="logo-box">
+      <img src="https://iith.ac.in/assets/images/horzlogolong.png" alt="IIT Hyderabad">
+    </div>
+    <div class="hd-divider"></div>
+    <div class="logo-box">
+      <img src="https://cfhe.org.in/wp-content/uploads/2021/07/cfhe-logo.png" alt="CfHE">
+      <div class="lb-stack">
+        <span class="lb-name">Centre for Health Entrepreneurship</span>
+        <span class="lb-sub">Foundation for CfHE · DST Approved Technology Business Incubator</span>
+      </div>
+    </div>
+    <div class="hd-divider"></div>
+    <div class="hd-mission">
+      "Achieving universal healthcare by igniting the spark of entrepreneurship
+      and accelerating India's MedTech ecosystem."
+    </div>
+    <!-- <div class="event-flag">HACKATHON<br>INNOVATION MEET<br>MAR 6–7, 2026</div> -->
+  </div>
 
-    <section id="labs" class="labs-section">
-        <div class="section-header reveal">
-            <h2>STATE-OF-THE-ART FACILITIES</h2>
-            <p>Six specialized laboratories equipped with cutting-edge technology to transform your healthcare innovation from prototype to production-ready product.</p>
-        </div>
-        <div class="labs-grid">
-            <div class="lab-card" onclick="openModal('electronics')">
-                <div class="lab-card-image">
-                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80" alt="Electronics Lab">
-                </div>
-                <div class="lab-card-content">
-                    <div class="lab-icon">⚡</div>
-                    <h3>Electronics Lab</h3>
-                    <p>Advanced electronic design, testing, and prototyping capabilities with precision instrumentation including oscilloscopes, function generators, PCB prototyping machines, and SMT equipment for circuit development and validation.</p>
-                    <span class="equipment-count">19 Equipment Units</span>
-                </div>
-            </div>
-            <div class="lab-card" onclick="openModal('digital')">
-                <div class="lab-card-image">
-                    <img src="https://images.unsplash.com/photo-1563906267088-b029e7101114?w=800&q=80" alt="Digital Fabrication">
-                </div>
-                <div class="lab-card-content">
-                    <div class="lab-icon">🔷</div>
-                    <h3>Digital Fabrication</h3>
-                    <p>Cutting-edge additive manufacturing with multiple 3D printing technologies (FDM, DLP, multi-material), CNC machining, laser engraving, and vacuum forming for rapid prototyping and small-batch production of complex geometries.</p>
-                    <span class="equipment-count">18 Equipment Units</span>
-                </div>
-            </div>
-            <div class="lab-card" onclick="openModal('heavy')">
-                <div class="lab-card-image">
-                    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80" alt="Heavy Fabrication">
-                </div>
-                <div class="lab-card-content">
-                    <div class="lab-icon">⚙️</div>
-                    <h3>Heavy Fabrication</h3>
-                    <p>Industrial-grade manufacturing equipment including laser cutting (2513 fiber), laser welding, wire-cut EDM, press brake, and precision machining capabilities for robust product development and metal fabrication.</p>
-                    <span class="equipment-count">9 Equipment Units</span>
-                </div>
-            </div>
-            <div class="lab-card" onclick="openModal('assembly')">
-                <div class="lab-card-image">
-                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&q=80" alt="Assembly & Testing">
-                </div>
-                <div class="lab-card-content">
-                    <div class="lab-icon">🔧</div>
-                    <h3>Assembly & Testing</h3>
-                    <p>Comprehensive assembly tools including Bosch professional power tools, precision measuring instruments (Mitutoyo), ultrasonic cleaning, and functional testing equipment to ensure product quality and performance validation.</p>
-                    <span class="equipment-count">22 Equipment Units</span>
-                </div>
-            </div>
-            <div class="lab-card" onclick="openModal('safety')">
-                <div class="lab-card-image">
-                    <img src="https://cdn.rohde-schwarz.com/image/market-segments/emc-testing/emi-receiver-campaign-scene-photo-rohde-schwarz_200_120007_840_472_8.jpg" alt="Safety & Compliance">
-                </div>
-                <div class="lab-card-content">
-                    <div class="lab-icon">🛡️</div>
-                    <h3>Safety & Compliance</h3>
-                    <p>Complete EMI/EMC testing suite with Rohde & Schwarz receivers, Schwarzbeck antennas, electrical safety analyzers (Fluke Biomedical), and compliance verification equipment for medical device certification and regulatory readiness.</p>
-                    <span class="equipment-count">12 Equipment Units</span>
-                </div>
-            </div>
-            <div class="lab-card" onclick="openModal('wet')">
-                <div class="lab-card-image">
-                    <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&q=80" alt="Wet Lab">
-                </div>
-                <div class="lab-card-content">
-                    <div class="lab-icon">🧬</div>
-                    <h3>Wet Lab</h3>
-                    <p>Biosafety-compliant laboratory with Class II biosafety cabinet (Heal Force), controlled environment incubators, refrigeration, and DI water purification system for biological testing, cell culture, and biocompatibility assessment.</p>
-                    <span class="equipment-count">4 Equipment Units</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="capabilities" class="capabilities">
-        <div class="section-header reveal">
-            <h2>END-TO-END CAPABILITIES</h2>
-            <p>Comprehensive support throughout your product development journey</p>
-        </div>
-        <div class="capabilities-grid">
-            <div class="capability-card">
-                <div class="capability-card-image">
-                    <img src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=800&q=80" alt="Design & Prototyping">
-                </div>
-                <div class="capability-card-content">
-                    <div class="capability-icon">🎯</div>
-                    <h3>Design & Prototyping</h3>
-                    <ul>
-                        <li>Concept validation and proof-of-concept development</li>
-                        <li>Rapid prototyping with 3D printing and CNC</li>
-                        <li>Electronic circuit design and PCB fabrication</li>
-                        <li>Industrial design and ergonomics optimization</li>
-                        <li>Material selection and testing</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="capability-card">
-                <div class="capability-card-image">
-                    <img src="https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?w=800&q=80" alt="Testing & Validation">
-                </div>
-                <div class="capability-card-content">
-                    <div class="capability-icon">🔬</div>
-                    <h3>Testing & Validation</h3>
-                    <ul>
-                        <li>Functional testing and performance validation</li>
-                        <li>EMI/EMC compliance testing</li>
-                        <li>Safety and biocompatibility assessment</li>
-                        <li>Environmental stress testing</li>
-                        <li>Quality assurance protocols</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="capability-card">
-                <div class="capability-card-image">
-                    <img src="https://images.unsplash.com/photo-1730382624709-81e52dd294d4?w=800&q=80" alt="Scale & Production">
-                </div>
-                <div class="capability-card-content">
-                    <div class="capability-icon">🚀</div>
-                    <h3>Scale & Production</h3>
-                    <ul>
-                        <li>Small to medium batch manufacturing</li>
-                        <li>Process optimization and automation</li>
-                        <li>Supply chain development support</li>
-                        <li>Regulatory documentation assistance</li>
-                        <li>Technology transfer readiness</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="contact">
-        <div class="contact-content">
-            <h2>ABOUT CfHE CATALYST</h2>
-            <p>CfHE Catalyst is the product realization arm of the Foundation for the Center for Healthcare Entrepreneurship (CfHE), IIT Hyderabad. We provide world-class infrastructure and technical expertise to healthcare innovators, startups, and enterprises.</p>
-            <p>Our mission is to accelerate the journey from innovation to impact by removing technical barriers and providing access to state-of-the-art manufacturing capabilities.</p>
-        </div>
-    </section>
-
-    <section class="labs-section" style="background: var(--darker); padding: 6rem 5%;">
-        <div class="section-header reveal">
-            <h2>INNOVATION IN ACTION</h2>
-            <p>See our state-of-the-art facilities in action</p>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; max-width: 1400px; margin: 0 auto;">
-            <div style="position: relative; overflow: hidden; border: 1px solid rgba(0, 212, 255, 0.2); cursor: pointer; transition: all 0.4s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 212, 255, 0.2)'">
-                <img src="https://images.unsplash.com/photo-1740209475472-aa7d280f7452?w=800&q=80" alt="Advanced Manufacturing" style="width: 100%; height: 300px; object-fit: cover; display: block;">
-                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(180deg, transparent 0%, rgba(10, 14, 26, 0.95) 100%);">
-                    <h4 style="color: var(--primary); font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem;">Precision Manufacturing</h4>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">CNC machining and laser cutting capabilities</p>
-                </div>
-            </div>
-            <div style="position: relative; overflow: hidden; border: 1px solid rgba(0, 212, 255, 0.2); cursor: pointer; transition: all 0.4s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 212, 255, 0.2)'">
-                <img src="https://images.unsplash.com/photo-1562408590-e32931084e23?w=800&q=80" alt="3D Printing" style="width: 100%; height: 300px; object-fit: cover; display: block;">
-                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(180deg, transparent 0%, rgba(10, 14, 26, 0.95) 100%);">
-                    <h4 style="color: var(--primary); font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem;">Additive Manufacturing</h4>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">Multi-technology 3D printing solutions</p>
-                </div>
-            </div>
-            <div style="position: relative; overflow: hidden; border: 1px solid rgba(0, 212, 255, 0.2); cursor: pointer; transition: all 0.4s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 212, 255, 0.2)'">
-                <img src="https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?w=800&q=80" alt="Electronics" style="width: 100%; height: 300px; object-fit: cover; display: block;">
-                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(180deg, transparent 0%, rgba(10, 14, 26, 0.95) 100%);">
-                    <h4 style="color: var(--primary); font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem;">Electronics Development</h4>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">PCB design, prototyping and testing</p>
-                </div>
-            </div>
-            <div style="position: relative; overflow: hidden; border: 1px solid rgba(0, 212, 255, 0.2); cursor: pointer; transition: all 0.4s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 212, 255, 0.2)'">
-                <img src="https://images.unsplash.com/photo-1581093804475-577d72e38aa0?w=800&q=80" alt="Testing" style="width: 100%; height: 300px; object-fit: cover; display: block;">
-                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(180deg, transparent 0%, rgba(10, 14, 26, 0.95) 100%);">
-                    <h4 style="color: var(--primary); font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem;">Compliance Testing</h4>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">EMC, safety and regulatory validation</p>
-                </div>
-            </div>
-            <div style="position: relative; overflow: hidden; border: 1px solid rgba(0, 212, 255, 0.2); cursor: pointer; transition: all 0.4s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 212, 255, 0.2)'">
-                <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=800&q=80" alt="Biolab" style="width: 100%; height: 300px; object-fit: cover; display: block;">
-                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(180deg, transparent 0%, rgba(10, 14, 26, 0.95) 100%);">
-                    <h4 style="color: var(--primary); font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem;">Biological Testing</h4>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">Biosafety and biocompatibility assessment</p>
-                </div>
-            </div>
-            <div style="position: relative; overflow: hidden; border: 1px solid rgba(0, 212, 255, 0.2); cursor: pointer; transition: all 0.4s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 212, 255, 0.2)'">
-                <img src="https://images.unsplash.com/photo-1698664683348-f9f35b809821?w=800&q=80" alt="Heavy Machinery" style="width: 100%; height: 300px; object-fit: cover; display: block;">
-                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(180deg, transparent 0%, rgba(10, 14, 26, 0.95) 100%);">
-                    <h4 style="color: var(--primary); font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem;">Metal Fabrication</h4>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">Laser welding and industrial machining</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact">
-        <div class="contact-content">
-            <h2>GET IN TOUCH</h2>
-            <p>Ready to bring your healthcare innovation to life? Connect with our team to discuss your project requirements.</p>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <h4>Location</h4>
-                    <p>IIT Hyderabad Campus<br>Kandi, Sangareddy<br>Telangana, India</p>
-                </div>
-                <div class="contact-item">
-                    <h4>Email</h4>
-                    <p><a href="/cdn-cgi/l/email-protection#d7b4b8b9a3b6b4a397b4b1bfb2f9b8a5b0f9beb9"><span class="__cf_email__" data-cfemail="c2a1adacb6a3a1b682a1a4aaa7ecadb0a5ecabac">[email&#160;protected]</span></a></p>
-                </div>
-                <div class="contact-item">
-                    <h4>Website</h4>
-                    <p><a href="http://cfhe.org.in" target="_blank">cfhe.org.in</a></p>
-                </div>
-            </div>
-            <div class="cta-buttons" style="justify-content: center; margin-top: 3rem;">
-                <a href="http://cfhe.org.in/contact/" class="btn btn-primary" target="_blank">Schedule a Consultation</a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">CfHE CATALYST</div>
-            <p class="footer-text">
-                Part of the Foundation for the Center for Healthcare Entrepreneurship, IIT Hyderabad<br>
-                Empowering healthcare innovation through world-class product realization infrastructure
-            </p>
-            <div class="footer-links">
-                <a href="http://cfhe.org.in" target="_blank">CfHE Foundation</a>
-                <a href="http://cfhe.org.in/about-us/" target="_blank">About Us</a>
-                <a href="http://cfhe.org.in/programs/" target="_blank">Programs</a>
-                <a href="http://cfhe.org.in/facilities/" target="_blank">Facilities</a>
-                <a href="http://cfhe.org.in/contact/" target="_blank">Contact</a>
-            </div>
-            <p class="copyright">© 2026 CfHE Catalyst - Foundation for the Center for Healthcare Entrepreneurship, IIT Hyderabad. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Modal for Equipment Details -->
-    <div id="equipmentModal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">×</button>
-            <h3 id="modalTitle"></h3>
-            <div id="modalEquipment" class="equipment-list"></div>
-        </div>
+  <!-- HERO -->
+  <div class="hero-section">
+    <div class="hero-left">
+      <div class="eyebrow">MedTech Startup Incubation </div>
+      <div class="headline">
+        India's <span class="hl">MedTech</span><br>
+        <span class="hg">Engine.</span>
+      </div>
+      <div class="subhead">
+        CfHE is IIT Hyderabad's dedicated startup incubation center to support <i>clinical product design, catalyze R&D, indigenous manufacturing and commercialization </i> of cost-effective medical devices to strengthen health care sector in India. 
+        <!-- We don't just incubate ideas — we build products that reach patients. -->
+        <br>
+        Connect with CfHE to ignite your MedTech journey.<strong> Towards Vision 2030: India's Healthcare Revolution </strong> <i>"Make Your Voice Heard For <strong>Vikasit Bharat</strong>"</i> <br>
+      </div>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-        // Equipment Data
-        const equipmentData = {
-            electronics: {
-                title: "Electronics Lab Equipment",
-                items: [
-                    {name: "Function Generator", spec: "AFG1022", make: "Tektronix", category: "Test & Measurement"},
-                    {name: "Oscilloscope", spec: "TBS1052C", make: "Tektronix", category: "Test & Measurement"},
-                    {name: "Oscilloscope", spec: "TBS1104", make: "Tektronix", category: "Test & Measurement"},
-                    {name: "Digital Multimeter", spec: "Professional Grade", make: "Keysight", category: "Test & Measurement"},
-                    {name: "DC Power Supply", spec: "GPD-3303S", make: "GW Instek", category: "Power Supply"},
-                    {name: "DC Power Supply", spec: "E3630A", make: "Agilent", category: "Power Supply"},
-                    {name: "Portable Logic Analyzer", spec: "TLA7BB2", make: "Tektronix", category: "Analysis"},
-                    {name: "Probe Station", spec: "PM8", make: "SUSS MicroTec", category: "Testing Equipment"},
-                    {name: "LCR Meter", spec: "E4980A", make: "Agilent", category: "Test & Measurement"},
-                    {name: "Temperature Controller", spec: "TP04100A-05", make: "Temptronic", category: "Environmental Control"},
-                    {name: "Ultrasonic Cleaner", spec: "Professional Series", make: "Bel", category: "Cleaning Equipment"},
-                    {name: "PCB Prototype Machine", spec: "ProtoMat S104", make: "LPKF", category: "PCB Fabrication"},
-                    {name: "SMT Pick and Place Machine", spec: "P&P4S", make: "Neoden", category: "Assembly Equipment"},
-                    {name: "Reflow Oven", spec: "T-962", make: "PUHUI", category: "Soldering Equipment"},
-                    {name: "Hot Air Rework Station", spec: "BAKKU Series", make: "Gordak", category: "Soldering Equipment"},
-                    {name: "Soldering Station", spec: "Professional Grade", make: "Generic", category: "Soldering Equipment"}
-                ]
-            },
-            digital: {
-                title: "Digital Fabrication Equipment",
-                items: [
-                    {name: "Industrial 3D Printer", spec: "BCN3D Epsilon W50", make: "BCN3D", category: "Additive Manufacturing"},
-                    {name: "Professional 3D Printer", spec: "Sigma D25", make: "BCN3D", category: "Additive Manufacturing"},
-                    {name: "DLP 3D Printer", spec: "Duplicator 7 Plus", make: "Wanhao", category: "Additive Manufacturing"},
-                    {name: "FDM 3D Printer", spec: "Ender 3", make: "Creality", category: "Additive Manufacturing"},
-                    {name: "Professional 3D Printer", spec: "Ultimaker S5", make: "Ultimaker", category: "Additive Manufacturing"},
-                    {name: "Large Format 3D Printer", spec: "CR-10 V3", make: "Creality", category: "Additive Manufacturing"},
-                    {name: "Multi-Material 3D Printer", spec: "Raise3D Pro3", make: "Raise3D", category: "Additive Manufacturing"},
-                    {name: "Multi-Material 3D Printer", spec: "E2CF", make: "Raise3D", category: "Additive Manufacturing"},
-                    {name: "Silicon Mold Making Machine", spec: "Proform 8000", make: "Rapid Shape", category: "Mold Making"},
-                    {name: "Precision CNC Mill", spec: "Nomad 883 Pro", make: "Carbide 3D", category: "CNC Machining"},
-                    {name: "CNC Milling Machine", spec: "MB200", make: "Carbide 3D", category: "CNC Machining"},
-                    {name: "CNC Router", spec: "Shapeoko 5 Pro", make: "Carbide 3D", category: "CNC Machining"},
-                    {name: "Laser Engraver", spec: "xTool D1 Pro 10W", make: "xTool", category: "Laser Processing"},
-                    {name: "Bandsaw Machine", spec: "Industrial Grade", make: "Yash", category: "Material Cutting"},
-                    {name: "Curing Oven", spec: "Temperature Controlled", make: "Industrial", category: "Post-Processing"},
-                    {name: "Vacuum Forming Machine", spec: "Professional Series", make: "Mayku", category: "Thermoforming"},
-                    {name: "Spray Booth", spec: "Ventilated System", make: "Custom", category: "Finishing"}
-                ]
-            },
-            heavy: {
-                title: "Heavy Fabrication Equipment",
-                items: [
-                    {name: "Laser Welding Machine", spec: "LW1500", make: "Han's Laser", category: "Welding"},
-                    {name: "Fiber Laser Cutting Machine", spec: "LC Fiber 2513", make: "Han's Laser", category: "Laser Cutting"},
-                    {name: "Wire-cut EDM Machine", spec: "DK7740F", make: "Baoma CNC", category: "Precision Machining"},
-                    {name: "Press Brake Machine", spec: "WC67K-40T/2500", make: "Industrial", category: "Metal Forming"},
-                    {name: "Lathe Machine", spec: "Industrial Grade", make: "HMT", category: "Turning Operations"},
-                    {name: "Plasma Cutter", spec: "Professional Series", make: "Industrial", category: "Metal Cutting"},
-                    {name: "Milling Machine", spec: "Industrial Grade", make: "HMT", category: "Milling Operations"},
-                    {name: "Column Drill", spec: "Heavy Duty", make: "Industrial", category: "Drilling"},
-                    {name: "Bandsaw Machine", spec: "Metal Cutting", make: "Industrial", category: "Material Cutting"}
-                ]
-            },
-            assembly: {
-                title: "Assembly & Functional Testing Equipment",
-                items: [
-                    {name: "Professional Drill Machine with Stand", spec: "Heavy Duty", make: "Bosch", category: "Power Tools"},
-                    {name: "Cutting Machine with Stand", spec: "Professional Series", make: "Bosch", category: "Power Tools"},
-                    {name: "Grinding Machine", spec: "Professional Grade", make: "Bosch", category: "Power Tools"},
-                    {name: "Cordless Drill Machine", spec: "Professional Series", make: "Bosch", category: "Power Tools"},
-                    {name: "Electric Sander", spec: "Professional Grade", make: "Bosch", category: "Power Tools"},
-                    {name: "Jigsaw", spec: "Variable Speed", make: "Bosch", category: "Power Tools"},
-                    {name: "Rotary Tool", spec: "Multi-Purpose", make: "Dremel", category: "Precision Tools"},
-                    {name: "Heat Gun", spec: "Variable Temperature", make: "Bosch", category: "Heat Tools"},
-                    {name: "Professional Measuring Tape", spec: "Heavy Duty", make: "Stanley", category: "Measuring Tools"},
-                    {name: "Digital Vernier Caliper", spec: "High Precision", make: "Mitutoyo", category: "Precision Measurement"},
-                    {name: "Micrometer", spec: "High Precision", make: "Mitutoyo", category: "Precision Measurement"},
-                    {name: "Ultrasonic Cleaner", spec: "Industrial Grade", make: "GT Sonic", category: "Cleaning Equipment"},
-                    {name: "Air Compressor", spec: "Industrial Grade", make: "Industrial", category: "Pneumatic Systems"},
-                    {name: "Professional Workbench", spec: "Heavy Duty", make: "Industrial", category: "Workstations"},
-                    {name: "Professional Hand Tools Set", spec: "Comprehensive", make: "Professional", category: "Hand Tools"}
-                ]
-            },
-            safety: {
-                title: "Safety & Compliance Testing Equipment",
-                items: [
-                    {name: "EMC Pre-Amplifier", spec: "HZ-16", make: "Schwarzbeck", category: "EMC Testing"},
-                    {name: "Line Impedance Stabilization Network", spec: "NNLK 8129", make: "Schwarzbeck", category: "EMC Testing"},
-                    {name: "EMC Test Receiver", spec: "ESR Series", make: "Rohde & Schwarz", category: "EMC Testing"},
-                    {name: "Log-Periodic Antenna", spec: "VULP 9118D", make: "Schwarzbeck", category: "EMC Testing"},
-                    {name: "Double-Ridged Waveguide Horn", spec: "EFS 9218", make: "Schwarzbeck", category: "EMC Testing"},
-                    {name: "Field Strength Probes", spec: "ENZ-5055, HZ-501", make: "Schwarzbeck", category: "EMC Testing"},
-                    {name: "Biconical Antenna", spec: "USLP 9143", make: "Schwarzbeck", category: "EMC Testing"},
-                    {name: "Electric Safety Analyzer", spec: "ESA 620", make: "Fluke Biomedical", category: "Safety Testing"},
-                    {name: "Electrical Safety Analyzer", spec: "601 Pro XL", make: "Fluke Biomedical", category: "Safety Testing"},
-                    {name: "Dielectric Withstand Tester", spec: "HT Hipot Tester", make: "Associated Research", category: "Safety Testing"},
-                    {name: "Ground Bond Tester", spec: "3550", make: "Associated Research", category: "Safety Testing"}
-                ]
-            },
-            wet: {
-                title: "Wet Lab Equipment",
-                items: [
-                    {name: "Class II Biosafety Cabinet", spec: "HFsafe-1200LC", make: "Heal Force", category: "Biosafety"},
-                    {name: "Laboratory Incubator", spec: "HF90/HF240 Dual Chamber", make: "Heal Force", category: "Environmental Control"},
-                    {name: "Laboratory Refrigerator", spec: "Low Temperature Storage", make: "SAMSUNG", category: "Cold Storage"},
-                    {name: "DI Water Purification System", spec: "Complete Purifier System", make: "Professional", category: "Water Treatment"}
-                ]
-            }
-        };
+    <!-- Catalyst box: horizontal stats layout + quote -->
+    <div class="catalyst-col">
+    <div class="catalyst-box">
+      <div class="catalyst-box-inner">
+        <div class="cb-label">CfHE Catalyst · Product Realization Infrastructure</div>
+        <div class="cb-title">End-to-End Lab Ecosystem — IIT Hyderabad Campus</div>
+        <div class="cb-stats-row">
+          <div class="cb-stat">
+            <div class="cb-num">6</div>
+            <div class="cb-lbl">Specialized<br>Labs</div>
+          </div>
+          <div class="cb-stat">
+            <div class="cb-num">84+</div>
+            <div class="cb-lbl">Equipments<br>Installed</div>
+          </div>
+          <div class="cb-stat">
+            <div class="cb-num">30+</div>
+            <div class="cb-lbl">Startups<br>Incubated</div>
+          </div>
+          <div class="cb-stat">
+            <div class="cb-num">8+</div>
+            <div class="cb-lbl">Fellowship<br>Cohorts</div>
+          </div>
+          <div class="cb-stat">
+            <div class="cb-num">24/7</div>
+            <div class="cb-lbl">Lab<br>Access</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="catalyst-quote">
+      "We don't just incubate ideas — we build products that reach patients."
+      <cite>— CfHE Mission</cite>
+    </div>
+    </div><!-- end .catalyst-col -->
+  </div>
 
-        // Modal Functions
-        function openModal(labType) {
-            const modal = document.getElementById('equipmentModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalEquipment = document.getElementById('modalEquipment');
-            
-            const data = equipmentData[labType];
-            modalTitle.textContent = data.title;
-            
-            let equipmentHTML = '';
-            data.items.forEach(item => {
-                equipmentHTML += `
-                    <div class="equipment-item">
-                        <h4>${item.name}</h4>
-                        <div class="equipment-details">
-                            ${item.spec !== '—' ? `<div class="equipment-detail"><strong>Specification/Model:</strong> <span class="equipment-spec">${item.spec}</span></div>` : ''}
-                            ${item.make !== '—' ? `<div class="equipment-detail"><strong>Manufacturer:</strong> ${item.make}</div>` : ''}
-                            ${item.category ? `<div class="equipment-detail"><strong>Category:</strong> ${item.category}</div>` : ''}
-                        </div>
-                    </div>
-                `;
-            });
-            
-            modalEquipment.innerHTML = equipmentHTML;
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+  <!-- STATS BAND -->
+   
+  <div class="stats-band">
+    <div class="sb-div"></div>
+    <div class="sb-item">
+      <div class="sb-num">PRODUCT REALIZATION ECOSYSTEM</div>
+      <!-- <div class="sb-lbl">12 units · Rohde &amp; Schwarz</div> -->
+       <div class="sb-lbl"></div>
+    </div>
 
-        function closeModal() {
-            const modal = document.getElementById('equipmentModal');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+    <div class="sb-item">
+      <div class="sb-lbl"><b>Design & Prototyping</b> </div>
+      <div class="sb-lbl"></div>
+    </div>
+    <div class="sb-div"></div>
+    <div class="sb-item">
+      <div class="sb-lbl"><b>Manufacturing & Assembly</b></div>
+    </div>
+    <div class="sb-div"></div>
+    <div class="sb-item">
+      <div class="sb-lbl"><b>Scale & Production</b></div>
+    </div>
+    <!-- 
+    <div class="sb-div"></div>
+    <div class="sb-item">
+      <div class="sb-num">Wet Lab</div>
+      <div class="sb-lbl">4 units · Class II Biosafety</div> -->
+    <!-- </div> -->
+  </div>
 
-        // Close modal on outside click
-        window.onclick = function(event) {
-            const modal = document.getElementById('equipmentModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
+  <!-- LABS STRIP -->
+  <div class="labs-strip">
+    <div class="ls-header">
+      <span class="ls-title">CfHE Catalyst — State-of-the-Art Lab Facilities</span>
+      <div class="ls-line"></div>
+      <span class="ls-tag">cfhe.org.in</span>
+    </div>
+    <div class="labs-row">
+      <div class="lab-tile">
+        <span class="lt-icon">⚡</span>
+        <div class="lt-name">Electronics Lab</div>
+        <div class="lt-detail">PCB prototyping, SMT equipment</div>
+        <div class="lt-eq">Units</div>
+      </div>
+      <div class="lab-tile">
+        <span class="lt-icon">🔷</span>
+        <div class="lt-name">Digital Fabrication</div>
+        <div class="lt-detail">FDM, DLP, CNC machining, laser engraving</div>
+        <!-- <div class="lt-eq">Units</div> -->
+      </div>
+      <div class="lab-tile">
+        <span class="lt-icon">⚙️</span>
+        <div class="lt-name">Heavy Fabrication</div>
+        <div class="lt-detail">VMC, CNC-Turning , Fiber laser cutting, laser welding, wire-cut EDM</div>
+        <!-- <div class="lt-eq">Units</div> -->
+      </div>
+      <div class="lab-tile">
+        <span class="lt-icon">🔧</span>
+        <div class="lt-name">Assembly &amp; Testing</div>
+        <div class="lt-detail">Bosch tools, Mitutoyo precision, ultrasonic cleaning</div>
+        <!-- <div class="lt-eq">Units</div> -->
+      </div>
+      <div class="lab-tile">
+        <span class="lt-icon">🛡️</span>
+        <div class="lt-name">Safety &amp; Compliance</div>
+        <div class="lt-detail">EMI/EMC Compliance Testing</div>
+        <!-- <div class="lt-eq">Units</div> -->
+      </div>
+      <div class="lab-tile">
+        <span class="lt-icon">🧬</span>
+        <div class="lt-name">Wet Lab</div>
+        <div class="lt-detail">Class II biosafety, cell culture, DI water system</div>
+        <!-- <div class="lt-eq">Units</div> -->
+      </div>
+    </div>
+  </div>
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+  <!-- PROGRAMS -->
+  <div class="programs-section">
+    <div class="prog-header">
+      <span class="prog-title">Programs &amp; What We Offer</span>
+      <div class="prog-line"></div>
+    </div>
+    <div class="prog-grid">
+      <div class="prog-card">
+        <div class="pc-icon">🎓</div>
+        <div>
+          <div class="pc-title">Fellowship Program</div>
+          <div class="pc-desc">1-year immersive training in healthcare entrepreneurship — interdisciplinary, mentor-led, with 8+ cohorts delivered.</div>
+        </div>
+      </div>
+      <div class="prog-card gold-b">
+        <div class="pc-icon">🚀</div>
+        <div>
+          <div class="pc-title">Incubation Ecosystem</div>
+          <div class="pc-desc">End-to-end startup support: idea → prototype → compliance → market. Powered by CfHE Catalyst infrastructure.</div>
+        </div>
+      </div>
+      <div class="prog-card">
+        <div class="pc-icon">🔗</div>
+        <div>
+          <div class="pc-title">Industry Partnerships</div>
+          <div class="pc-desc">Collaborations with ICMR, AIG Hospitals, NIMS, BioNest, and IP/legal/regulatory expert networks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        // Scroll reveal animation
-        // Scroll reveal animation
-        function reveal() {
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach(element => {
-                const windowHeight = window.innerHeight;
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < windowHeight - elementVisible) {
-                    element.classList.add('active');
-                }
-            });
-        }
+  <!-- INCUBATEES + PARTNERS (combined horizontal strip) -->
+  <div class="bottom-strip">
+    <div class="incubatees-col">
+      <div class="ib-label">Some of our incubated ventures</div>
+      <div class="ib-row">
+        <div class="ib-chip">Avinya NeuroTech</div>
+        <div class="ib-chip">Aerobiosys Innovations</div>
+        <div class="ib-chip">Heamac Healthcare </div>
+        <div class="ib-chip">Kvayat Medical </div>
+        <div class="ib-chip">SurgeGenie Healthtech</div>
+        <div class="ib-chip">Nemocare Wellness</div>
+        <div class="ib-chip">BeAble Health</div>
+        <div class="ib-chip">Cortex n Grey Technologies</div>
+        <div class="ib-chip">Healthora Innovations</div>
+        <div class="ib-chip">CyZenMed Labs</div>
+        <div class="ib-chip">Eranki labs </div>
+        <div class="ib-chip">+ more</div>
+      </div>
+    </div>
+    <div class="partners-col">
+      <div class="partners-label">Clinical, Industry &amp; Funding Partners</div>
+      <div class="partners-row">
+        <!-- TOP PRIORITY -->
+        <div class="partner-logo">
+          <img src="https://selvamtech.edu.in/wp-content/uploads/2016/03/dst-logo.png" alt="DST">
+        </div>
+        <div class="partner-logo">
+          <img src="https://www.biotecnika.org/wp-content/uploads/2016/03/dbt-logo.png" alt="DBT">
+        </div>
+        <!-- EXISTING -->
+        <div class="partner-logo">
+          <img src="https://aighospitals.com/assets/aig/image/logo.png" alt="AIG Hospitals">
+        </div>
+        <div class="partner-logo">
+          <img src="https://cfhe.org.in/wp-content/uploads/2021/10/icmr01.png" alt="ICMR">
+        </div>
+        <div class="partner-logo">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/15/Nizam%27s_Institute_of_Medical_Sciences_Logo.svg/250px-Nizam%27s_Institute_of_Medical_Sciences_Logo.svg.png" alt="NIMS">
+        </div>
+        <div class="partner-logo">
+          <img src="https://kaminenihospitals.com/wp-content/uploads/2023/07/cropped-Kamineni-Hospitals-LOGO.png" alt="Kamineni Hospital">
+        </div>
+        <div class="partner-logo">
+          <img src="https://cfhe.org.in/wp-content/uploads/2022/02/hdfc.png" alt="HDFC">
+        </div>
+        <div class="partner-logo">
+          <img src="https://cfhe.org.in/wp-content/uploads/2023/01/asian-spine.png" alt="Asian Spine">
+        </div>
+        <div class="partner-logo">
+          <img src="https://cfhe.org.in/wp-content/uploads/2021/09/JCB_company-Logo.wine_.png" alt="JCB">
+        </div>
+        <div class="partner-logo">
+          <img src="https://cfhe.org.in/wp-content/uploads/2023/01/Kapital-Advisory-Final-Logo-SVG.png" alt="Kapital Advisory">
+        </div>
+        <div class="partner-logo">
+          <img src="https://ssrana.in/wp-content/uploads/2023/08/birac-300x149-1.webp" alt="BIRAC">
+        </div>
+        <div class="partner-logo">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG-cZRlalSAziivihLV_kxRpMwwsln-aaoag&s" alt="Partner">
+        </div>
+        <div class="partner-logo">
+          <img src="https://mdms.icmr.org.in/images/MDMS_logo5.gif" alt="ICMR MDMS">
+        </div>
+        <!-- LAST PRIORITY -->
+        <div class="partner-logo">
+          <img src="https://static.wixstatic.com/media/051410_16fa86586f8d40c48c00849ab2b92a06~mv2.png/v1/crop/x_0,y_90,w_3000,h_420/fill/w_271,h_40,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/K%26K_logo-07.png" alt="K&K">
+        </div>
+        <div class="partner-logo">
+          <img src="https://cfhe.org.in/wp-content/uploads/2021/11/SFS-Logo-Registeed-with-tag-line-300x220.jpg" alt="SFS">
+        </div>
+        <div class="partner-logo">
+          <img src="https://projectheena.com/uploads/ngo/35163714258194/profileImage/images/deepstambh-foundation.png" alt="Deepstambh Foundation">
+        </div>
+        <div class="partner-logo">
+          <img src="https://medcubator.in/wp-content/uploads/2020/08/log-medcubator-1.png" alt="Medcubator">
+        </div>
+      </div>
+    </div>
+  </div>
 
-        window.addEventListener('scroll', reveal);
-        reveal(); // Check on load
-    </script>
+  <div class="flex-spacer"></div>
+
+  <!-- CTA FOOTER -->
+  <div class="cta-footer">
+    <div class="cf-left">
+      <div class="cf-headline">
+        Building India's next generation of <em>clinical products</em> — from IIT Hyderabad.
+      </div>
+      <div class="cf-sub">Visit our stall · Explore collaboration opportunities · cfhe.org.in · IIT Hyderabad, Kandi</div>
+    </div>
+    <!-- <div class="nha-box">
+      <div class="nha-l">Supported by</div>
+      <div class="nha-n">National<br>Health Authority</div>
+    </div> -->
+    <div class="cf-btns">
+      <div class="btn-p">🤝 Let's Collaborate</div>
+      <div class="btn-s">cfhe.org.in · IIT Hyderabad, Kandi</div>
+    </div>
+  </div>
+
+</div>
+
+<p class="label" style="margin-top:20px;">
+  Poster 2 · "India's MedTech Engine" · Cream + Teal + Charcoal · Landscape · 116" × 90"
+</p>
 </body>
 </html>
